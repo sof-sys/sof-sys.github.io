@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Portfolio — Your Name</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:       #f5f5f5;
+      --bg2:      #ebebeb;
+      --card:     #ffffff;
+      --green:    #111111;
+      --green2:   #333333;
+      --green-lt: rgba(0,0,0,0.06);
+      --green-md: rgba(0,0,0,0.12);
+      --text:     #0a0a0a;
+      --muted:    #777777;
+      --border:   rgba(0,0,0,0.15);
+      --shadow:   rgba(0,0,0,0.08);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Share Tech Mono', monospace;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Grid background */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: relative;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.75rem 2rem;
+      max-width: 920px;
+      margin: 0 auto;
+      opacity: 0;
+      animation: rise 0.6s 0.1s forwards;
+    }
+
+    .nav-logo {
+      font-family: 'Orbitron', monospace;
+      font-weight: 900;
+      font-size: 1rem;
+      color: var(--green);
+      letter-spacing: 0.1em;
+    }
+
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--green); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      z-index: 10;
+      padding: 5rem 2rem 3rem;
+      max-width: 920px;
+      margin: 0 auto;
+    }
+
+    .prompt {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+      opacity: 0;
+      animation: rise 0.5s 0.3s forwards;
+    }
+    .prompt span { color: var(--green); }
+
+    h1 {
+      font-family: 'Orbitron', monospace;
+      font-weight: 900;
+      font-size: clamp(2.2rem, 6vw, 4.5rem);
+      color: var(--text);
+      line-height: 1.05;
+      letter-spacing: 0.03em;
+      opacity: 0;
+      animation: rise 0.7s 0.5s forwards;
+    }
+
+    h1 .accent {
+      color: var(--green);
+      text-shadow: 0 0 20px rgba(0,0,0,0.15);
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      height: 1em;
+      background: var(--text);
+      vertical-align: text-bottom;
+      margin-left: 3px;
+      animation: blink 1s step-end infinite;
+    }
+
+    .hero-sub {
+      margin-top: 1.25rem;
+      font-size: 0.88rem;
+      color: var(--muted);
+      max-width: 520px;
+      line-height: 1.85;
+      opacity: 0;
+      animation: rise 0.7s 0.7s forwards;
+    }
+    .hero-sub strong { color: var(--green); font-weight: 400; }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+      opacity: 0;
+      animation: rise 0.7s 0.9s forwards;
+    }
+
+    .badge {
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.85rem;
+      font-size: 0.72rem;
+      color: var(--green);
+      background: var(--green-lt);
+      letter-spacing: 0.12em;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+      opacity: 0;
+      animation: rise 0.7s 1.0s forwards;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.7rem 1.4rem;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      transition: all 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--green);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.18);
+    }
+    .btn-primary:hover {
+      background: var(--green2);
+      box-shadow: 0 6px 28px rgba(0,0,0,0.28);
+      transform: translateY(-2px);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--green);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover {
+      background: var(--green-lt);
+      transform: translateY(-2px);
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      position: relative;
+      z-index: 10;
+      max-width: 920px;
+      margin: 1rem auto 0;
+      padding: 0 2rem;
+      opacity: 0;
+      animation: rise 0.6s 1.2s forwards;
+    }
+
+    .divider-line {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      color: var(--muted);
+      font-size: 0.72rem;
+      letter-spacing: 0.25em;
+    }
+
+    .divider-line::before,
+    .divider-line::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--border), transparent);
+    }
+
+    /* ── PROJECTS ── */
+    .section {
+      position: relative;
+      z-index: 10;
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem;
+    }
+
+    .section-label {
+      color: var(--muted);
+      font-size: 0.72rem;
+      letter-spacing: 0.25em;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: rise 0.6s 1.4s forwards;
+    }
+    .section-label span { color: var(--green); }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    .card {
+      background: var(--card);
+      padding: 1.75rem;
+      position: relative;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: background 0.25s;
+      opacity: 0;
+      animation: rise 0.5s forwards;
+    }
+
+    .card:nth-child(1) { animation-delay: 1.5s; }
+    .card:nth-child(2) { animation-delay: 1.65s; }
+    .card:nth-child(3) { animation-delay: 1.8s; }
+    .card:nth-child(4) { animation-delay: 1.95s; }
+    .card:nth-child(5) { animation-delay: 2.1s; }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 0;
+      background: var(--green);
+      transition: height 0.3s;
+    }
+
+    .card:hover { background: #f0f0f0; }
+    .card:hover::before { height: 100%; }
+
+    .card-index {
+      font-size: 0.68rem;
+      color: var(--muted);
+      letter-spacing: 0.15em;
+      margin-bottom: 0.6rem;
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.75rem;
+    }
+
+    .card-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .card-arrow {
+      color: var(--muted);
+      font-size: 1rem;
+      transition: transform 0.25s, color 0.25s;
+    }
+    .card:hover .card-arrow { transform: translate(3px, -3px); color: var(--green); }
+
+    .card-desc {
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 1.1rem;
+    }
+
+    .card-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+    .tag {
+      font-size: 0.68rem;
+      color: var(--green);
+      background: var(--green-lt);
+      border: 1px solid var(--border);
+      padding: 0.18rem 0.5rem;
+      letter-spacing: 0.06em;
+    }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      opacity: 0;
+      animation: rise 0.6s 2.3s forwards;
+    }
+
+    .about-card {
+      background: var(--card);
+      padding: 1.75rem;
+    }
+
+    .about-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      color: var(--green);
+      margin-bottom: 0.75rem;
+    }
+
+    .about-text {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.85;
+    }
+    .about-text strong { color: var(--text); font-weight: 400; }
+
+    .skills-list { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.75rem; }
+
+    .skill {
+      font-size: 0.72rem;
+      color: var(--green);
+      background: var(--green-lt);
+      border: 1px solid var(--border);
+      padding: 0.25rem 0.65rem;
+    }
+
+    .contact-links { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 0.75rem; }
+    .contact-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.82rem;
+      transition: color 0.2s;
+    }
+    .contact-links a::before { content: '> '; color: var(--green); }
+    .contact-links a:hover { color: var(--green); }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative;
+      z-index: 10;
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 2rem;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      opacity: 0;
+      animation: rise 0.6s 2.5s forwards;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
+    }
+
+    @media (max-width: 620px) {
+      .cards-grid, .about-grid { grid-template-columns: 1fr; }
+      h1 { font-size: 2.2rem; }
+      .nav-links { gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-logo">YOUR_NAME</div>
+    <ul class="nav-links">
+      <li><a href="#projects">projects/</a></li>
+      <li><a href="#about">about/</a></li>
+      <li><a href="/cdn-cgi/l/email-protection#96cfd9c3c4c9d3dbd7dfda">contact/</a></li>
+    </ul>
+  </nav>
+
+  <div class="hero">
+    <div class="prompt"><span>~/portfolio</span> $ whoami</div>
+    <h1><span class="accent">Sofianos Ioannou</span><span class="cursor"></span></h1>
+    <p class="hero-sub">
+      Self-taught engineer seeking to deepen technical understanding.<br/>
+      Experience in <strong>Web Development</strong>, <strong>Ethereum Engineering </strong>, and <strong>Data Analytics</strong> — this is the proof.
+    </p>
+    <div class="badges">
+      <span class="badge">SOLIDITY</span>
+      <span class="badge">HTML</span>
+      <span class="badge">Python - Libraries: Pandas,  Seaborn, Matplotlib</span>
+      <span class="badge">SQL</span>
+      <span class="badge">SQLite</span>
+    </div>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">ls projects/ →</a>
+      <a href="https://github.com/sof-sys" target="_blank" class="btn btn-ghost">github ↗</a>
+    </div>
+  </div>
+
+  <div class="divider"><div class="divider-line">SELECTED WORK</div></div>
+
+  <section class="section" id="projects">
+    <p class="section-label"><span>//</span> click any project to view repo</p>
+
+    <div class="cards-grid">
+
+      <a class="card" href="YOUR_GITHUB_REPO_LINK_1" target="_blank" rel="noopener">
+        <div class="card-index">01 // WEB APP</div>
+        <div class="card-top">
+          <div class="card-title">PROJECT NAME ONE</div>
+          <span class="card-arrow">↗</span>
+        </div>
+        <p class="card-desc">Describe what this project does in 1–2 sentences. What problem does it solve and what's interesting about how you built it?</p>
+        <div class="card-tags">
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+          <span class="tag">JavaScript</span>
+        </div>
+      </a>
+
+      <a class="card" href="YOUR_GITHUB_REPO_LINK_2" target="_blank" rel="noopener">
+        <div class="card-index">02 // SOLIDITY</div>
+        <div class="card-top">
+          <div class="card-title">PROJECT NAME TWO</div>
+          <span class="card-arrow">↗</span>
+        </div>
+        <p class="card-desc">Describe your smart contract or blockchain project. What chain, what does the contract enable, and what did you learn?</p>
+        <div class="card-tags">
+          <span class="tag">Solidity</span>
+          <span class="tag">Ethereum</span>
+          <span class="tag">Web3.js</span>
+        </div>
+      </a>
+
+      <a class="card" href="YOUR_GITHUB_REPO_LINK_3" target="_blank" rel="noopener">
+        <div class="card-index">03 // DATA</div>
+        <div class="card-top">
+          <div class="card-title">PROJECT NAME THREE</div>
+          <span class="card-arrow">↗</span>
+        </div>
+        <p class="card-desc">Describe your data analytics project. What dataset, what did you find, and what tools did you use to analyse it?</p>
+        <div class="card-tags">
+          <span class="tag">Python</span>
+          <span class="tag">Pandas</span>
+          <span class="tag">Matplotlib</span>
+        </div>
+      </a>
+
+      <a class="card" href="YOUR_GITHUB_REPO_LINK_4" target="_blank" rel="noopener">
+        <div class="card-index">04 // WEB APP</div>
+        <div class="card-top">
+          <div class="card-title">PROJECT NAME FOUR</div>
+          <span class="card-arrow">↗</span>
+        </div>
+        <p class="card-desc">Even a small utility or tool counts. Explain what it does, why you built it, and what you'd improve with more time.</p>
+        <div class="card-tags">
+          <span class="tag">React</span>
+          <span class="tag">Node.js</span>
+        </div>
+      </a>
+
+      <a class="card" href="YOUR_GITHUB_REPO_LINK_5" target="_blank" rel="noopener">
+        <div class="card-index">05 // WEB APP</div>
+        <div class="card-top">
+          <div class="card-title">PROJECT NAME FIVE</div>
+          <span class="card-arrow">↗</span>
+        </div>
+        <p class="card-desc">Describe what this project does in 1–2 sentences. What problem does it solve and what's interesting about how you built it?</p>
+        <div class="card-tags">
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+          <span class="tag">JavaScript</span>
+        </div>
+      </a>
+      
+    </div>
+  </section>
+
+  <div class="divider"><div class="divider-line">ABOUT</div></div>
+
+  <section class="section" id="about">
+    <div class="about-grid">
+      <div class="about-card">
+        <div class="about-label">// BACKGROUND</div>
+        <p class="about-text">
+          Currently studying <strong>entrepreneurship</strong>, while also
+          pursuing software development independently. 
+        </p>
+        <p class="about-text" style="margin-top: 1rem;">
+          Although my heart will always lie in entrepreneurship, I believe that to be a tech leader, regardless of AI; one will still require a strong technical foundation. I am seeking to build my understanding from an intermediate level to an advanced level, enabling me to create a strong foundation to assist me in achieving my personal ambition of holding a prominent position in the advancement of technology.
+        </p>
+      </div>
+      <div class="about-card">
+        <div class="about-label">// SKILLS</div>
+        <div class="skills-list">
+
+          <span class="skill">Python</span>
+          <span class="skill">Solidity</span>
+          <span class="skill">SQL</span>
+          <span class="skill">React</span>
+          <span class="skill">Git</span>
+          <span class="skill">Data Analysis</span>
+          <span class="skill">Web3</span>
+        </div>
+        <div class="about-label" style="margin-top:1.5rem">// CONTACT</div>
+        <div class="contact-links">
+          <a href="https://github.com/sof-sys" target="_blank">GitHub</a>
+          <a > Email:19311287@brookes.ac.uk</a>
+          <a href="https://www.linkedin.com/in/sofianos-ioannou/" target="_blank">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2025 YOUR_NAME</span>
+    <span>
